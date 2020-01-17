@@ -1,6 +1,21 @@
 修改package.json
  "main": "index.js",
 
+
+主要目标包括：
+
+在本地创建一个 demo , 通过 webpack4 的配置实现文件改变后页面自动刷新
+将编译后的组件发布到 npm 上去，用户直接可以使用
+在 GitHub Pages 上发布一个可以在线预览的 Demo
+创建组件和DEMO
+创建项目文件夹并初始化 npm package ，确保你创建的组件名称没有在 [npm](npm) 上被使用过， 这里我们用 my-component作为示例
+
+mkdir my-component
+cd my-component
+npm init
+运行 npm init 问题提示列表可以采用默认的选项 （译者注：默认配置可以使用 npm init -y）
+
+
 安装react的库与虚拟DOM 渲染页面时需要使用它们进行渲染
 npm i react react-dom -D
 
@@ -48,7 +63,43 @@ npm i babel-cli -D
 
 
  在 GitHub Pages 上发布一个在线 demo
+在 GitHub Pages 托管在线 Demo 是免费的，需要使用 webpack 来构建我们的生产环境版本，
+然后发布到 GitHub 仓库指定的分支上去，接下来让我们自动化完成这些吧！
 
+首先，我们需要借助一个帮助维护特性分支的包，我们还没有对我们的项目添加 git 代码版本控制，稍等片刻
+ npm i gh-pages -D
+ 然后在 package.json 中添加三个脚本
+
+"build": "webpack --mode production",
+"deploy": "gh-pages -d examples/dist",
+"publish-demo": "npm run build && npm run deploy"
+
+build 脚本目的是用 webpack 帮我们构建一个 boundled, 和压缩生产环境代码，这里我们需要告诉 webpack 哪个文件是我们项目输出的结果
+
+/*** webpack.config.js ***/
+module.exports = {
+ entry: path.join(__dirname, "examples/src/index.js"),
+ output: {
+   path: path.join(__dirname, "examples/dist"),
+   filename: "bundle.js"
+ },
+
+ 来，试一试
+
+npm run build
+你会发现生成版本的代码已经打包到了 examples/dist
+现在来对项目添加 git 版本控制，在项目的根目录下添加 .gitignore文件，需要对一些中间过程代码文件进行排除\
+
+# .gitignore
+node_modules
+dist
+
+接着去 GitHub 为它创建一个仓库，按照随后屏幕上出现的提示执行命令行 ...or create a new respository on the command line，
+将会在本地初始化一个本地仓库，并连接到远程仓库上(就是在当前项目下git init .....)
+
+现在我们的本地和远程的仓库都已经创建并连接上了，准备将 demo 发布到托管环境了，这时，首先需要去这个项目的仓库中为它新建一个 gh-pages 的分支，deploy 脚本就是为了帮我们干这个事的
+npm run deploy
+点击设置连接到你的 github 仓库页面，然后滚动到 github pages 栏目，你将会看到你的 demo 在线连接地址，恭喜你 上线了！
 
 
 
