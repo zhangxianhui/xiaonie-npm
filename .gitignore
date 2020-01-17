@@ -1,0 +1,4 @@
+# .gitignore
+# 现在来对项目添加 git 版本控制，在项目的根目录下添加 .gitignore文件，需要对一些中间过程代码文件进行排除
+node_modules
+dist

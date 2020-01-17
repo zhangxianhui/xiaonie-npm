@@ -1,0 +1,58 @@
+修改package.json
+ "main": "index.js",
+
+安装react的库与虚拟DOM 渲染页面时需要使用它们进行渲染
+npm i react react-dom -D
+
+我们的项目将通过 webpack进行构建， Babel 进行编译，webpack-dev-server 作为本地开发服务器，接下来我们将他们添加到项目的开发依赖中去
+npm i webpack webpack-cli webpack-dev-server html-webpack-plugin 
+style-loader css-loader babel-core babel-loader babel-preset-env babel-preset-react -D
+
+
+├── example // 示例代码存放目录
+│  └── src
+├── node_modules
+├── package.json
+└── src // 组件源代码和样式存放目录
+
+
+
+
+
+编译脚本 
+我们要发布被 babel 编译且被压缩后的版本，要让没有使用 babel 的项目也能够正常的使用，比如不能出现 JSX 语法
+首先需要安装 babel cli
+npm i babel-cli -D
+ 现在我们添加 transpile脚本，以便使用 Babel 编译我们的源代码，同时拷贝一些静态文件(如：css 文件)到目标打包目录dist下
+
+
+ 1.发布 npm publish
+ 401 Unauthorized - PUT https://registry.npm.taobao.org/my-npm - [unauthorized] Login first
+ 需要登录
+ npm login
+ 输入名字 密码 邮箱
+
+ 403 Forbidden - PUT https://registry.npm.taobao.org/my-npm - [no_perms] Private mode enable, only admin can publish this module 
+ 说明输入的npm 源不对
+ nrm ls 查看
+ nrm use npm 切换到npm 
+
+ 401 Unauthorized - PUT https://registry.npmjs.org/my-npm - You must be logged in to publish packages
+ 需要再次登录
+
+ 403 Forbidden - PUT https://registry.npmjs.org/my-npm - You do not have permission to publish "my-npm". Are you logged in as the correct user?
+ 名字重复
+ 需要修改package.json 的名字
+
+ npm publish 在次发布
+
+
+ 在 GitHub Pages 上发布一个在线 demo
+
+
+
+
+
+
+
+
