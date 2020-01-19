@@ -1,6 +1,6 @@
 {
   "name": "xiaonie-npm",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -33,5 +33,9 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
+  },
+  "dependencies": {
+    "antd": "^3.26.7",
+    "babel-plugin-import": "^1.13.0"
   }
 }

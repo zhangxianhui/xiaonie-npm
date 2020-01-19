@@ -19,9 +19,40 @@ npm init
 安装react的库与虚拟DOM 渲染页面时需要使用它们进行渲染
 npm i react react-dom -D
 
-我们的项目将通过 webpack进行构建， Babel 进行编译，webpack-dev-server 作为本地开发服务器，接下来我们将他们添加到项目的开发依赖中去
-npm i webpack webpack-cli webpack-dev-server html-webpack-plugin 
-style-loader css-loader babel-core babel-loader babel-preset-env babel-preset-react -D
+我们的项目将通过 webpack进行构建， 
+Babel 进行编译，
+webpack-dev-server 作为本地开发服务器，
+接下来我们将他们添加到项目的开发依赖中去
+npm i 
+webpack 
+webpack-cli 
+webpack-dev-server 
+html-webpack-plugin 
+style-loader
+css-loader 
+babel-core 
+babel-loader 
+babel-preset-env 
+babel-preset-react -D
+
+这时上面安装的依赖已经被添加到根目录下的 package.json中了，接下来我们添加一个 start的脚本，用于启动我们本地开发的服务器
+"start": "webpack-dev-server --mode development",
+可以通过mode选项为webpack指定一些默认的配置。mode分为development/production,默认为production。
+
+babel-preset-env 
+说白了就像是按需转码的意思
+使用
+在配置文件里在根目录下新建.babelrc
+{"presets": ["env"]}
+babel-preset-env可以设置一些选项
+{"presets": [  
+      [
+          "env",
+           {
+            "targets": {"chrome": 52,"browsers": ["last 2 versions","safari 7"]  }  
+      }]   
+ ]}
+
 
 
 ├── example // 示例代码存放目录
@@ -34,11 +65,32 @@ style-loader css-loader babel-core babel-loader babel-preset-env babel-preset-re
 
 
 
-编译脚本 
+编译脚本 babel
 我们要发布被 babel 编译且被压缩后的版本，要让没有使用 babel 的项目也能够正常的使用，比如不能出现 JSX 语法
 首先需要安装 babel cli
 npm i babel-cli -D
  现在我们添加 transpile脚本，以便使用 Babel 编译我们的源代码，同时拷贝一些静态文件(如：css 文件)到目标打包目录dist下
+ 这里需要解释babel src -d dist这个命令的意思。这个命令目的是把src文件夹下的文件都转译，转译后的文件放到dist目录下
+ babel src -d dist --copy-files 拷贝
+
+
+ 另外我们需要告诉用户在用户我们的组件的时候对于 React 版本的要求，
+ peerDependency 能够很好的表达这个信息，
+ 同时在我们的发布的组件包中不会包含 react , 这样也减小了包的大小，更加重要是可以避免在用户的项目中存在多个 react 版本，
+ 更改后的 package.json如下
+"license": "ISC",
+ "peerDependencies": {
+   "react": "^16.3.0",
+   "react-dom": "^16.3.0"
+ },
+ 最后让我们在项目的根目录下添加.npmignore文件，告诉 npm，我们项目中哪些文件和文件夹是在发布的包中被忽略掉的
+ # .npmignore 
+src
+examples
+.babelrc
+.gitignore
+webpack.config.js
+说明.texts
 
 
  1.发布 npm publish
@@ -60,6 +112,7 @@ npm i babel-cli -D
  需要修改package.json 的名字
 
  npm publish 在次发布
+ 这时你去浏览器的 npm 主页，应该就能看到我们刚才发布的新包了，恭喜你，你的组件已经成功发布！
 
 
  在 GitHub Pages 上发布一个在线 demo
@@ -78,9 +131,9 @@ build 脚本目的是用 webpack 帮我们构建一个 boundled, 和压缩生产
 
 /*** webpack.config.js ***/
 module.exports = {
- entry: path.join(__dirname, "examples/src/index.js"),
+ entry: path.join(__dirname, "example/src/index.js"),
  output: {
-   path: path.join(__dirname, "examples/dist"),
+   path: path.join(__dirname, "example/dist"),
    filename: "bundle.js"
  },
 
@@ -100,6 +153,24 @@ dist
 现在我们的本地和远程的仓库都已经创建并连接上了，准备将 demo 发布到托管环境了，这时，首先需要去这个项目的仓库中为它新建一个 gh-pages 的分支，deploy 脚本就是为了帮我们干这个事的
 npm run deploy
 点击设置连接到你的 github 仓库页面，然后滚动到 github pages 栏目，你将会看到你的 demo 在线连接地址，恭喜你 上线了！
+
+
+后面当你需要发布一个新的版本时，
+你只需要更新一下 package.json 里面的 version 版本号，
+然后执行 npm publish 和 npm run publish-demo,发布新版本到 npm 是分分钟的事儿，
+发布新的 demo 到 GitHub Pages 最多也只需要 20分钟
+
+
+按需加载antd 
+1 .安装 npm i babel-plugin-import -D
+2. babelrc
+"plugins": [
+        ["import", {
+          "libraryName": "antd",
+          "libraryDirectory": "es",
+          "style": "css" // `style: true` 会加载 less 文件
+        }]
+      ]
 
 
 

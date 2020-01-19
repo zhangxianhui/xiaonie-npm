@@ -6,6 +6,8 @@
     通过html-webpack-plugin自动注入编译打包好的脚本文件
     为 demo 启动端口为 3001 的服务
 
+    最后需要指定 Babel 需要对哪些文件进行编译
+
  * ***/
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -14,7 +16,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
  filename: "./index.html"
 });
 module.exports = {
- entry: path.join(__dirname, "example/src/index.js"),
+ entry: path.join(__dirname, "example/src/index.jsx"),
 //  新增输出文件
  output: {
     path: path.join(__dirname, "example/dist"),

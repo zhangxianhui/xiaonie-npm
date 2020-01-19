@@ -1,7 +1,7 @@
-/*** examples/src/index.js ***/
+/*** examples/src/index.jsx ***/
 import React from 'react';
 import { render} from 'react-dom';
-import MyComponent from '../../src/index';
+import MyComponent from '../../src/index.jsx';
 const App = () => (
  <MyComponent />
 );
