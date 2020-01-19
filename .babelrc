@@ -3,8 +3,9 @@
 // 通用的配置也很简单，只需要添加一对 presets,在项目根目录下添加文件.babelrc
 // plugins 按需加载antd
 {
-    "presets": ["env", "react"],
+    "presets": ["env","es2015","stage-2","react"],
     "plugins": [
+      "transform-runtime",
         ["import", {
           "libraryName": "antd",
           "libraryDirectory": "es",
